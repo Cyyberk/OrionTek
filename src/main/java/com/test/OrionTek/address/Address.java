@@ -1,28 +1,30 @@
-package com.test.OrionTek.user.role;
+package com.test.OrionTek.address;
 
-import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
+@Entity
+@AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Roles")
-public class Role{
+@Table(name = "Addresses")
+public class Address {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NonNull
-    private String name;
+    private String country;
+    private String state;
+    private String city;
+    private String address1;
+    private String address2;
+    private int postalCode;
 
-    public Role(String name){
-        this.name = name;
-    }
-
+      
 }

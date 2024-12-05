@@ -39,22 +39,22 @@ class UserServiceTests {
 	private Role mockRole;
 	
 	public UserServiceTests(){
-		mockUser = new User("jean18699", "abc", "jean@gmail.com");
+		mockUser = new User("jean18699", "abc", "jean18699@gmail.com");
 		mockRole = new Role("USER");
 		mockUser.setId(1);
-		mockUser.setRole(mockRole);
+		mockUser.addRole(mockRole);
 	}
 
 	@BeforeEach
 	void init(){
-		when(roleRepository.findByRole("USER")).thenReturn(Optional.of(mockRole));
+		when(roleRepository.findByName("USER")).thenReturn(Optional.of(mockRole));
 	}
 
 	@Test
 	@DisplayName("Test 1: Register User Test")
 	@Order(1)
 	void registerUserTest(){
-		UserDTO userDTO = new UserDTO("jean18699", "abc", "jean@gmail.com", mockRole.getRole());
+		UserDTO userDTO = new UserDTO("jean18699", "abc", "jean@gmail.com", mockRole);
 
 		when(passwordEncoder.encode(any(String.class))).thenReturn(userDTO.getPassword());
 		when(userRepository.save(any((User.class)))).thenReturn(mockUser);

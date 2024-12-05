@@ -10,7 +10,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +22,6 @@ import com.test.OrionTek.user.role.Role;
 @NoArgsConstructor
 @Data
 @Entity
-@Builder
 @Table(name = "Users")
 public class User {
 
@@ -35,18 +33,16 @@ public class User {
     private String email;
     
     @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
-	inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "role") )
-	private Set<Role> roles;
-
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+	inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id") )
+	private Set<Role> roles = new HashSet<>();
 
     public User(String username, String password, String email){
         this.username = username; this.password = password; this.email = email;
-        roles = new HashSet<>();
     }
 
 
-    public void setRole(Role role){
+    public void addRole(Role role){
         this.roles.add(role);
     }
 

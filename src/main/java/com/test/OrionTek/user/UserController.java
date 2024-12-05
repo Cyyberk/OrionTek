@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,7 +50,11 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UserDTO user) throws Exception {
-        return generateRespose("User logged", HttpStatus.ACCEPTED, generateJwtToken(user));
+        Map<String, Object> map = new HashMap<String, Object>();
+		map.put("message", "User logged!");
+		map.put("token", generateJwtToken(user));
+		return new ResponseEntity<Object>(map, HttpStatus.ACCEPTED);
+        
     }
     
 
@@ -62,7 +67,7 @@ public class UserController {
 	@GetMapping("/welcomeUser")
 	@PreAuthorize("hasAuthority('USER')")
 	public String welcomeUser() {
-		return "WelcomeUSER";
+		return "WelcomeUser";
 	}
 
     private ResponseEntity<Object> generateRespose(String message, HttpStatus status, Object responseobj) {

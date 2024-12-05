@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.test.OrionTek.user.role.Role;
 import com.test.OrionTek.user.role.RoleRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserService implements DefaultUserService{
 
@@ -36,26 +38,33 @@ public class UserService implements DefaultUserService{
 	}
 	
 	public Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles){
-		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
+		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 	}
 
     @Override
+    @Transactional
     public User save(UserDTO user) {
-        Role role = new Role();
+        Role role = null;
+        User newUser = new User(user.getUsername(),passwordEncoder.encode(user.getPassword()), user.getEmail());
         
         try {
-            role = roleRepository.findByRole(user.getRole()).orElseThrow(()-> new RoleNotFoundException("User role not found"));
+            role = roleRepository.findByName(user.getRole().getName()).orElseThrow(()-> new RoleNotFoundException("User role not found"));  
         } catch (RoleNotFoundException e) { e.printStackTrace(); }
-    
-        User newUser = User.builder().username(user.getUsername()).password(passwordEncoder.encode(user.getPassword())).email(user.getEmail()).roles(new HashSet<Role>()).build();
-        newUser.setRole(role);
-        return userRepository.save(newUser);
+        
+        if(role!= null){
+            System.out.println(role.getId());
+            System.out.println(role.getName());
+            newUser.addRole(role);
+            return userRepository.save(newUser);
+        }
+        return null;
     }
 
 
-    @Override
-    public User delete(UserDTO user) {
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
+    // @Override
+    // @Transactional
+    // public User delete(UserDTO user) {
+        
+    // }
     
 }
