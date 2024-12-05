@@ -65,22 +65,17 @@ public class UserController {
 		return "WelcomeUSER";
 	}
 
-    private ResponseEntity<Object> generateRespose(String message, HttpStatus st, Object responseobj) {
-
+    private ResponseEntity<Object> generateRespose(String message, HttpStatus status, Object responseobj) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("message", message);
-		map.put("Status", st.value());
+		map.put("status", status.value());
 		map.put("data", responseobj);
-
-		return new ResponseEntity<Object>(map, st);
+		return new ResponseEntity<Object>(map, status);
 	}
 
-	private String generateJwtToken(@RequestBody UserDTO userDto) throws Exception {
-		
-			Authentication authentication = authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+	public String generateJwtToken(@RequestBody UserDTO userDto) throws Exception {
+		Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		return jwtUtil.generateToken(authentication);
 	}
 

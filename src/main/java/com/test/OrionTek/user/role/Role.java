@@ -6,9 +6,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name="Roles")
 public class Role{
     
@@ -17,8 +19,8 @@ public class Role{
     private long id;
     private String role;
 
-    public Role(){
-        super();
+    public Role(String role){
+        this.role = role;
     }
 
 }

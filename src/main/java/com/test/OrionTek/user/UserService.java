@@ -42,11 +42,11 @@ public class UserService implements DefaultUserService{
     @Override
     public User save(UserDTO user) {
         Role role = new Role();
-        //if(user.getRole().equals("USER")){
-            try {
-                role = roleRepository.findByRole(user.getRole()).orElseThrow(()-> new RoleNotFoundException("User role not found"));
-            } catch (RoleNotFoundException e) { e.printStackTrace(); }
-        //}
+        
+        try {
+            role = roleRepository.findByRole(user.getRole()).orElseThrow(()-> new RoleNotFoundException("User role not found"));
+        } catch (RoleNotFoundException e) { e.printStackTrace(); }
+    
         User newUser = User.builder().username(user.getUsername()).password(passwordEncoder.encode(user.getPassword())).email(user.getEmail()).roles(new HashSet<Role>()).build();
         newUser.setRole(role);
         return userRepository.save(newUser);

@@ -1,6 +1,5 @@
 package com.test.OrionTek.user;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.test.OrionTek.user.role.Role;
@@ -38,6 +38,13 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"),
 	inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "role") )
 	private Set<Role> roles;
+
+
+    public User(String username, String password, String email){
+        this.username = username; this.password = password; this.email = email;
+        roles = new HashSet<>();
+    }
+
 
     public void setRole(Role role){
         this.roles.add(role);
