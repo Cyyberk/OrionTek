@@ -61,10 +61,10 @@ public class UserService implements DefaultUserService{
     }
 
 
-    // @Override
-    // @Transactional
-    // public User delete(UserDTO user) {
-        
-    // }
+    @Override
+    @Transactional
+    public User delete(UserDTO user) {
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
     
 }

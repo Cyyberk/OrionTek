@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.test.OrionTek.address.Address;
 import com.test.OrionTek.address.AddressRepository;
+import com.test.OrionTek.customer.exceptions.CustomerIdNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -13,19 +14,15 @@ import jakarta.transaction.Transactional;
 public class CustomerService implements DefaultCustomerService{
 
     private CustomerRepository customerRepository;
-    private AddressRepository addressRepository;
 
-    public CustomerService(CustomerRepository customerRepository, AddressRepository addressRepository){
+    public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
-        this.addressRepository = addressRepository;
     }
 
     @Override
     @Transactional
     public Customer register(CustomerDTO customerDTO) {
         Customer customer = new Customer(customerDTO.getName(), customerDTO.getLastname(), customerDTO.getAge(), customerDTO.getGender());
-        customer.addAddress(customerDTO.getAddress());
-        addressRepository.save(customerDTO.getAddress());
         return customerRepository.save(customer);
     }
 
@@ -43,8 +40,7 @@ public class CustomerService implements DefaultCustomerService{
 
     @Override
     public Customer getCustomerById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCustomer'");
+        return customerRepository.findById(id).orElseThrow(()-> new CustomerIdNotFoundException("Customer not found with this id: " + id));
     }
     
 }

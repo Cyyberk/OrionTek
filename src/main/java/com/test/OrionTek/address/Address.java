@@ -1,5 +1,7 @@
 package com.test.OrionTek.address;
 
+import com.test.OrionTek.customer.Customer;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,5 @@ public class Address {
     private String address1;
     private String address2;
     private int postalCode;
-
       
 }
