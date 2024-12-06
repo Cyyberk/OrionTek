@@ -5,9 +5,7 @@ import javax.management.relation.RoleNotFoundException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.test.OrionTek.user.UserDTO;
 import com.test.OrionTek.user.UserService;
-import com.test.OrionTek.user.role.Role;
 import com.test.OrionTek.user.role.RoleRepository;
 
 @SpringBootApplication

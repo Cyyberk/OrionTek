@@ -1,7 +1,5 @@
 package com.test.OrionTek.address;
 
-import com.test.OrionTek.customer.Customer;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

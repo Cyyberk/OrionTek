@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.test.OrionTek.address.Address;
-import com.test.OrionTek.address.AddressRepository;
+import com.test.OrionTek.customer.dto.CustomerDTO;
 import com.test.OrionTek.customer.exceptions.CustomerIdNotFoundException;
 
 import jakarta.transaction.Transactional;
@@ -27,20 +26,26 @@ public class CustomerService implements DefaultCustomerService{
     }
 
     @Override
+    @Transactional
     public Customer delete(Customer customer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        customerRepository.delete(customer);
+        return customer;
     }
 
     @Override
-    public List<Customer> getAllCustumers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCustumers'");
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
     }
 
     @Override
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id).orElseThrow(()-> new CustomerIdNotFoundException("Customer not found with this id: " + id));
+    }
+
+    @Override
+    @Transactional
+    public Customer updateCustomer(Customer customer) {
+       return customerRepository.save(customer);
     }
     
 }

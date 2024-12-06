@@ -1,11 +1,7 @@
-package com.test.OrionTek.customer;
-
-import java.util.HashSet;
-import java.util.Set;
+package com.test.OrionTek.customer.dto;
 
 import com.test.OrionTek.address.Address;
 
-import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

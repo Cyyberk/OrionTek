@@ -1,6 +1,7 @@
 package com.test.OrionTek.address;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +32,12 @@ public class AddressController {
         this.addressService = addressService;
     }
 
+    @GetMapping("/address")
+    public ResponseEntity<Object> getAllAddresses() {
+        List<Address> addresses = addressService.getAllAddresses();
+        return generateRespose("List of address for this customer", HttpStatus.OK, addresses);
+    }
+
     @GetMapping("/customer/address/{addressId}")
     public ResponseEntity<Object> getAddress(@PathVariable Long addressId) {
         Address address = addressService.getAddressById(addressId);
@@ -38,30 +45,30 @@ public class AddressController {
     }
 
     @GetMapping("/customer/address/all/{customerId}")
-    public ResponseEntity<Object> getAllAddresses(@PathVariable Long customerId) {
+    public ResponseEntity<Object> getAllAddressesCustomer(@PathVariable Long customerId) {
         Customer customer = customerService.getCustomerById(customerId);
-        Set<Address> addresses = addressService.getAllAddresses(customer);
+        Set<Address> addresses = addressService.getAllCustomerAddresses(customer);
         return generateRespose("List of address for this customer", HttpStatus.OK, addresses);
     }
 
      // Adding new address to the customer by the attribute "customerId" of the address
     @PostMapping("/customer/address")
     public ResponseEntity<Object> registerAddress(@RequestBody RegisterAddressDTO addressDTO) {
-      
         Customer customer = customerService.getCustomerById(addressDTO.getCustomerId());
         addressService.addAddress(addressDTO.getAddress(), customer);
         return generateRespose("List of address for this customer", HttpStatus.OK, customer.getAddress());
     }
 
-      // Updating address
-      @PatchMapping("/customer/address")
-      @PreAuthorize("hasAuthority('ADMIN')")
-      public ResponseEntity<Object> updateAddress(@RequestBody Address updatedAddress) {
-          Address address = addressService.getAddressById(updatedAddress.getId());
-          if(address != null) addressService.updateAddress(updatedAddress);
-          return generateRespose("List of address for this customer", HttpStatus.OK, address);
-      }
+    // Updating address
+    @PatchMapping("/customer/address")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Object> updateAddress(@RequestBody Address updatedAddress) {
+        Address address = addressService.getAddressById(updatedAddress.getId());
+        if(address != null) addressService.updateAddress(updatedAddress);
+        return generateRespose("List of address for this customer", HttpStatus.OK, address);
+    }
 
+    // Deleting address
     @DeleteMapping("/customer/address")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Object> deleteAddress(@RequestBody DeleteAddressDTO deleteDTO) {
@@ -73,7 +80,7 @@ public class AddressController {
     }
 
 
-     private ResponseEntity<Object> generateRespose(String message, HttpStatus status, Object responseobj) {
+    private ResponseEntity<Object> generateRespose(String message, HttpStatus status, Object responseobj) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("message", message);
 		map.put("status", status.value());

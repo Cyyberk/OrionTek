@@ -1,7 +1,6 @@
 package com.test.OrionTek.user;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,11 +59,5 @@ public class UserService implements DefaultUserService{
         return null;
     }
 
-
-    @Override
-    @Transactional
-    public User delete(UserDTO user) {
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
     
 }

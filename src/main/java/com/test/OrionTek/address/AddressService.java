@@ -1,6 +1,7 @@
 package com.test.OrionTek.address;
 
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -45,9 +46,8 @@ public class AddressService implements DefaultAddressService{
         return addressRepository.findById(id).orElseThrow(()-> new AddressNotFoundException("Address with id: " + id + " not found"));
     }
     
-
     @Override
-    public Set<Address> getAllAddresses(Customer customer) {
+    public Set<Address> getAllCustomerAddresses(Customer customer) {
        return customer.getAddress();
     }
 
@@ -55,6 +55,11 @@ public class AddressService implements DefaultAddressService{
     @Transactional
     public Address updateAddress(Address address) {
       return addressRepository.save(address);
+    }
+
+    @Override
+    public List<Address> getAllAddresses() {
+        return addressRepository.findAll();
     }
 
     
