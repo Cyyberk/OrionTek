@@ -8,9 +8,10 @@ This test project includes:
   -H2 embebbed database for testing.
   -Data initialization by SQL queries.
   -Exception handling.
-  -Use of documentations tools like swagger. See more below.
   -Postman tests (not included in this repo).
   -Properties profile selection (dev, prod).
+  -Use of documentations tools like swagger. See more below.
+  
 
   
 Documentation in swagger after initializing the app: http://localhost:8080/swagger-ui/index.html#/
