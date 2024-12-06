@@ -2,6 +2,7 @@ package com.test.OrionTek.security.jwt;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,15 +24,19 @@ import com.test.OrionTek.user.DefaultUserService;
 
 
 
+
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
-	DefaultUserService userDetailsService;
+	private DefaultUserService userDetailsService;
+	private String apiVersion;
 	
-	public SecurityConfig(DefaultUserService userDetailsService){
+	public SecurityConfig(DefaultUserService userDetailsService, @Value("${api.version}") String apiVersion){
 		this.userDetailsService = userDetailsService;
+		this.apiVersion = apiVersion;
 	}
 
 	@Bean
@@ -57,8 +62,12 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 		.authorizeHttpRequests(registry -> {
-			//registry.requestMatchers(HttpMethod.GET,"h2-console").permitAll();
-			registry.anyRequest().permitAll();
+			registry.requestMatchers("/h2-console/**").permitAll();
+			registry.requestMatchers("/swagger-ui/**").permitAll();
+			registry.requestMatchers("/v3/api-docs/**").permitAll();
+			registry.requestMatchers("/"+apiVersion+"/login").permitAll();
+			registry.requestMatchers("/"+apiVersion+"/register").permitAll();
+			registry.anyRequest().authenticated();
 		})
 		.csrf(csrf -> csrf.disable())
 		.sessionManagement(session -> {
@@ -78,7 +87,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8001"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
         configuration.setAllowedMethods(List.of("GET","POST"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
