@@ -6,9 +6,12 @@ This test project includes:
   -Junit and Mockito tests.
   -Use of JPA and hibernate.
   -H2 embebbed database for testing.
+  -Data initialization by SQL queries.
   -Exception handling.
   -Use of documentations tools like swagger. See more below.
   -Postman tests (not included in this repo).
+  -Properties profile selection (dev, prod).
+
   
 Documentation in swagger after initializing the app: http://localhost:8080/swagger-ui/index.html#/
 
